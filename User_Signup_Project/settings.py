@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from decouple import config
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,8 +24,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, "media")
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4q0p8#(42-dexnsu5gw9s_!m^9g)sz2!x9_5ph3t(e+*gucwrd'
-
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -72,11 +73,6 @@ SITE_ID = 2
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        # 'APP': {
-        #     'client_id': '874055030711-po70ano1s4m06aaouqj6213ct72e1dkv.apps.googleusercontent.com',
-        #     'secret': '_KhmjfKFApEDZkniod8yEun8',
-        #     'key': ''
-        # },
         'SCOPE': [
             'profile',
             'email',
@@ -158,8 +154,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'django_test',
-        'USER': 'mustak',
-        'PASSWORD': 'mu574k85',
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'localhost',
         'POST': '',
     }
@@ -227,11 +223,11 @@ LOGIN_URL = '/signin'
 
 # Email Verification
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = config('EMAIL_BACKEND')
 MAILER_EMAIL_BACKEND = EMAIL_BACKEND
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = 'astro48boy'
-EMAIL_HOST_USER = 'astro03048@gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
