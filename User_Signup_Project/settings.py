@@ -39,6 +39,12 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+# to authenticate with email or username. Taken from the CustomAuthentication file
+AUTHENTICATION_BACKENDS = [
+    'Signup_App.CustomAuthentication.EmailBackend']
+
+
 # Application definition
 
 INSTALLED_APPS = [
