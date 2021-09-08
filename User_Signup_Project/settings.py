@@ -40,7 +40,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# to authenticate with email or username. Taken from the CustomAuthentication file
+
+# Custom Backend. to authenticate with email or username. Taken from the CustomAuthentication file
 AUTHENTICATION_BACKENDS = [
     'Signup_App.CustomAuthentication.EmailBackend']
 

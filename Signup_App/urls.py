@@ -26,11 +26,11 @@ urlpatterns = [
     # url(r'^signup', views.sign_up, name='sign_up'),
     path('users', views.UserList.as_view()),
     path('users/<int:pk>', views.UserDetail.as_view()),
-    url(r'^signup/$', views.signup, name='signup'),
-    url(r'^signin', views.signin, name='signin'),
+    path(r'signup', views.signup, name='signup'),
+    path(r'signin', views.signin, name='signin'),
     path('home', views.home, name='home'),
     path('', views.home, name='home'),
-    url('signout', views.signout, name='signout'),
+    path('signout', views.signout, name='signout'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
 
 
