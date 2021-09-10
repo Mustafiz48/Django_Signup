@@ -3,7 +3,7 @@ from Signup_App import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from Signup_App.serializers import UserListSerializer, UserDetailSerializer
-from Signup_App.forms import Signup_form
+from Signup_App.forms import Signup_form,Password_reset_form,Email_form
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -97,7 +97,6 @@ def signup(request):
 
 # Email activation
 
-
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
@@ -111,6 +110,83 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+
+
+
+def reset_password(request):
+
+    # reset email sending part
+    if request.method == "POST":
+        email = Email_form(data=request.POST)
+        User = get_user_model()
+
+
+        if email.is_valid():
+            mail = email.cleaned_data['email']
+
+
+            user = User.objects.get(email=mail)
+            current_site = get_current_site(request)
+            mail_subject = 'Password Reset'
+            message = render_to_string('Signup_App/password_reset_email_template.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = user.email
+            email = EmailMessage(mail_subject, message,
+                                    to=[to_email])
+            email.send()
+            return HttpResponse('Please check your email address to change Password')
+        
+        else:
+            print(email.errors)
+    else:
+        user_data = Email_form()
+
+    return render(request, 'Signup_App/email_form.html',
+                  {'user_data': user_data}
+                  )
+
+    # return render(request,'first_app/signup.html')
+
+
+#Password_reset_form
+#Password Reset
+def reset(request, uidb64, token):
+    if request.method=='POST':
+
+        User = get_user_model()
+        
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        if user is not None and account_activation_token.check_token(user, token):
+
+            new_pass = Password_reset_form(data=request.POST)
+            print("Haaa")
+            print(new_pass)
+            if new_pass.is_valid():
+                passwrd = new_pass.cleaned_data['password']
+                user.set_password(passwrd)
+                user.save()
+
+            return HttpResponse('Your Password Has been Changed!.')
+        else:
+            return HttpResponse('Activation link is invalid!')
+
+    else:
+        new_password = Password_reset_form()
+
+    return render(request, 'Signup_App/password_reset.html',
+                  {'new_password': new_password}
+                  )
 
 
 @api_view(['GET', 'POST'])

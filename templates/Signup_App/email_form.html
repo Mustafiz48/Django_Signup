@@ -14,15 +14,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Main css -->
     <link rel="stylesheet" href=" {% static "css/style.css" %}">
-    {% if user.is_authenticated %}
-        <meta http-equiv="refresh" content="0; {% url 'link:home' %}" />
-    {% endif %}
+
 </head>
 <body>
 
     <div class="main">
 
-        {% if not user.is_authenticated %}
 
         <!-- Sing in  Form -->
         <section class="sign-in">
@@ -30,52 +27,27 @@
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="/media/images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="{% url 'link:signup' %}" class="signup-image-link">Create an account</a>
-                        <a href="{% url 'link:reset_password' %}" class="signup-image-link">Forgot Password?</a>
-
+                        <a href="{% url 'link:signup' %}" class="signup-image-link">Submit your Email</a>
                     </div>
 
                     <div class="signin-form">
-                        <h2 class="form-title">Sign In</h2>
+                        <h2 class="form-title">Type your Email</h2>
                         <form method="POST" class="register-form" id="login-form">
                             {% csrf_token %}
 
                             <div class="form-group">
                                 <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="username" id="username" placeholder="Username"/>
+                                <input type="text" name="email" id="username" placeholder="Email"/>
                             </div>
-                            <div class="form-group">
-                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="password" placeholder="Password"/>
-                            </div>
-                            <!-- <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div> -->
+
                             <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Submit"/>
                             </div>
                         </form>
-                        <div class="social-login">
-                            <span class="social-label">Or login with</span>
-                            <ul class="socials">
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="{% provider_login_url 'google' %}"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        {% else %}
-        <div class="d-flex justify-content-center">
-            <div class="spinner-grow text-secondary"style="width: 8rem; height: 8rem;"  role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        {% endif %}
 
     </div>
 

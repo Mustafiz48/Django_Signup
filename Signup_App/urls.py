@@ -32,6 +32,10 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('signout', views.signout, name='signout'),
     path('activate/<uidb64>/<token>', views.activate, name='activate'),
+    
+    path('reset-password', views.reset_password, name='reset_password'),
+    path('reset/<uidb64>/<token>', views.reset, name='reset'),
+
 
 
 
