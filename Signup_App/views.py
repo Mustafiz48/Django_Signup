@@ -15,7 +15,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
-from .email_token_genaration import account_activation_token
+from .email_token_genaration import account_activation_token,password_reset_token
 from django.core.mail import send_mail, EmailMessage
 
 # rest-frameworks
@@ -134,7 +134,7 @@ def reset_password(request):
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
+                'token': password_reset_token.make_token(user),
             })
             to_email = user.email
             email = EmailMessage(mail_subject, message,
@@ -167,7 +167,7 @@ def reset(request, uidb64, token):
         except(TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
 
-        if user is not None and account_activation_token.check_token(user, token):
+        if user is not None and password_reset_token.check_token(user, token):
 
             new_pass = Password_reset_form(data=request.POST)
             print("Haaa")
