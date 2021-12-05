@@ -1,0 +1,7 @@
+django
+python-decouple
+djangorestframework
+django-allauth
+django-rest-swagger
+drf-yasg
+psycopg2

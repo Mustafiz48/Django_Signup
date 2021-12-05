@@ -76,7 +76,7 @@ INSTALLED_APPS = [
 
 # allauth
 
-SITE_ID = 2
+SITE_ID = 3
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
